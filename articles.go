@@ -4,11 +4,17 @@ import (
 	"encoding/json"
 )
 
-type Article struct {
-	Body string `json:"text,omitempty"`
+type ImageList []struct {
+	Link string
 }
 
-func (a Article) has_body() bool {
+type Article struct {
+	Body   string `json:"text,omitempty"`
+	Title  string
+	Images ImageList `json:",omitempty"`
+}
+
+func (a Article) HasBody() bool {
 	return a.Body != ""
 }
 

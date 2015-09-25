@@ -1,6 +1,6 @@
 package labmeasure
 
-type CompareRecord struct {
+type BodyRecord struct {
 	URL         string
 	DiffbotBody string
 	LabBody     string
@@ -15,4 +15,8 @@ type CompareRecord struct {
 
 func isAcceptable(precision, recall float32, pt, rt float32) bool {
 	return precision >= pt && recall >= rt
+}
+
+func (br *BodyRecord) SetURL(url string) {
+	br.URL = url
 }

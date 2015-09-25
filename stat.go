@@ -1,48 +1,26 @@
 package labmeasure
 
-type Stat struct {
-	Examined         int
-	Correct          int
-	Incorrect        int
-	Records          []CompareRecord
-	IncorrectRecords []CompareRecord
-	TotalRecall      float32
-	TotalPrecision   float32
-	Configuration    Config
+type Recorders []Recorder
+
+type Stater interface{}
+
+type FinalStat struct {
+	recorders map[string]Recorders
+	stats     map[string]Stater
 }
 
-func (st Stat) Accuracy() float32 {
-	return float32(st.Correct) / float32(st.Examined)
+func (st *FinalStat) AddRecordFor(name string, index int, record Recorder) {
+	st.recorders[name][index] = record
 }
 
-func (st Stat) AverageRecall() float32 {
-	return float32(st.TotalRecall) / float32(st.Examined)
+func (st FinalStat) GetRecords(name string) Recorders {
+	return st.recorders[name]
 }
 
-func (st Stat) AveragePrecision() float32 {
-	return float32(st.TotalPrecision) / float32(st.Examined)
+func (st *FinalStat) AddStat(name string, stat Stater) {
+	st.stats[name] = stat
 }
 
-func (st Stat) PrecisionThreshold() float32 {
-	return st.Configuration.PrecisionThreshold
-}
-
-func (st Stat) RecallThreshold() float32 {
-	return st.Configuration.RecallThreshold
-}
-
-func (st *Stat) Calculate() {
-	for _, record := range st.Records {
-		if record.URL != "" {
-			st.Examined += 1
-			st.TotalPrecision += record.Precision
-			st.TotalRecall += record.Recall
-			if record.Acceptable {
-				st.Correct += 1
-			} else {
-				st.Incorrect += 1
-				st.IncorrectRecords = append(st.IncorrectRecords, record)
-			}
-		}
-	}
+func (st *FinalStat) InitRecorders(name string, length int) {
+	st.recorders[name] = make(Recorders, length)
 }

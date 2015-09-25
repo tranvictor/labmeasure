@@ -25,60 +25,59 @@ func getarticles(filename string) Articles {
 
 type empty struct{}
 
-type Comparer func(diffbot, lab string, pt, rt float32) CompareRecord
-
-func analyze(darticles, larticles Articles, conf Config, comparer Comparer) Stat {
-	result := Stat{
-		0, 0, 0, make([]CompareRecord, len(larticles)),
-		make([]CompareRecord, 0),
-		0, 0, conf,
+func initFinalStat(length int, comparers []Comparer) FinalStat {
+	result := FinalStat{
+		map[string]Recorders{},
+		map[string]Stater{},
 	}
+	for _, comparer := range comparers {
+		result.InitRecorders(comparer.Name(), length)
+	}
+	return result
+}
+
+func analyze(darticles, larticles Articles, conf Config, comparers ...Comparer) FinalStat {
+	result := initFinalStat(len(larticles), comparers)
 	sem := make(chan empty, len(larticles))
 	index := 0
 	for url, larticle := range larticles {
 		go func(
-			index int, url string,
+			index int, url string, result *FinalStat,
 			larticle Article, darticles *Articles) {
-
 			fmt.Printf("%d\n", index)
 			if darticle, exist := (*darticles)[url]; exist {
-				if darticle.has_body() && larticle.has_body() {
-					record := comparer(
-						darticle.Body, larticle.Body,
-						conf.PrecisionThreshold,
-						conf.RecallThreshold)
-					record.URL = url
-					result.Records[index] = record
+				for _, comparer := range comparers {
+					record := comparer.Compare(
+						darticle, larticle, conf)
+					record.SetURL(url)
+					result.AddRecordFor(
+						comparer.Name(), index, record)
 				}
 			}
 			sem <- empty{}
-		}(index, url, larticle, &darticles)
+		}(index, url, &result, larticle, &darticles)
 		index += 1
 	}
 	for i := 0; i < len(larticles); i++ {
 		<-sem
 	}
-	result.Calculate()
+	for _, comparer := range comparers {
+		comparerName := comparer.Name()
+		result.AddStat(
+			comparerName,
+			comparer.Calculate(
+				result.GetRecords(comparerName), conf))
+	}
 	return result
 }
 
-func Measure(conf Config) Stat {
+func Measure(conf Config) FinalStat {
 	darticles := getarticles(conf.DiffbotDataFile)
 	larticles := getarticles(conf.LabDataFile)
 
 	fmt.Printf("%d \n", len(darticles))
 	fmt.Printf("%d \n", len(larticles))
 
-	st := analyze(darticles, larticles, conf, compareBodyByWord)
-
-	fmt.Printf("Number of examined articles: %d\n", st.Examined)
-	fmt.Printf("Number of correct articles: %d\n", st.Correct)
-	fmt.Printf("Number of incorrect articles: %d\n", st.Incorrect)
-	fmt.Printf("Accuracy: %.2f\n", st.Accuracy())
-	fmt.Printf("Average precision: %.2f\n", st.AveragePrecision())
-	fmt.Printf("Average recall: %.2f\n", st.AverageRecall())
-	fmt.Printf("Precision threshold: %f\n", conf.PrecisionThreshold)
-	fmt.Printf("Recall threshold: %f\n", conf.RecallThreshold)
-
+	st := analyze(darticles, larticles, conf, BodyComparer{})
 	return st
 }
