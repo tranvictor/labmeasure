@@ -61,17 +61,19 @@ func (bc BodyComparer) Calculate(recorders Recorders, config Config) Stater {
 		0, 0, 0, make([]PBodyRecord, 0), 0, 0, config,
 	}
 	for _, record := range recorders {
-		bodyRecord := record.(*PBodyRecord)
-		if bodyRecord.URL != "" {
-			st.Examined += 1
-			st.TotalPrecision += bodyRecord.Precision
-			st.TotalRecall += bodyRecord.Recall
-			if bodyRecord.Acceptable {
-				st.Correct += 1
-			} else {
-				st.Incorrect += 1
-				st.IncorrectRecords = append(
-					st.IncorrectRecords, *bodyRecord)
+		if record != nil {
+			bodyRecord := record.(*PBodyRecord)
+			if bodyRecord.URL != "" {
+				st.Examined += 1
+				st.TotalPrecision += bodyRecord.Precision
+				st.TotalRecall += bodyRecord.Recall
+				if bodyRecord.Acceptable {
+					st.Correct += 1
+				} else {
+					st.Incorrect += 1
+					st.IncorrectRecords = append(
+						st.IncorrectRecords, *bodyRecord)
+				}
 			}
 		}
 	}
