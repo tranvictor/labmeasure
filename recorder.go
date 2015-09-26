@@ -1,5 +1,5 @@
 package labmeasure
 
-type Recorder interface {
+type PRecorder interface {
 	SetURL(string)
 }

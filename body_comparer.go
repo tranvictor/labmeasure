@@ -18,8 +18,8 @@ func (bc BodyComparer) Name() string {
 	return "BodyComparer"
 }
 
-func (bc BodyComparer) Compare(diffbot, lab Article, config Config) Recorder {
-	record := BodyRecord{}
+func (bc BodyComparer) Compare(diffbot, lab Article, config Config) PRecorder {
+	record := PBodyRecord{}
 	if !diffbot.HasBody() || !lab.HasBody() {
 		return &record
 	}
@@ -58,10 +58,10 @@ func (bc BodyComparer) Compare(diffbot, lab Article, config Config) Recorder {
 
 func (bc BodyComparer) Calculate(recorders Recorders, config Config) Stater {
 	st := BodyStat{
-		0, 0, 0, make([]BodyRecord, 0), 0, 0, config,
+		0, 0, 0, make([]PBodyRecord, 0), 0, 0, config,
 	}
 	for _, record := range recorders {
-		bodyRecord := record.(*BodyRecord)
+		bodyRecord := record.(*PBodyRecord)
 		if bodyRecord.URL != "" {
 			st.Examined += 1
 			st.TotalPrecision += bodyRecord.Precision

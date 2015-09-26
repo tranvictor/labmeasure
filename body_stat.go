@@ -4,10 +4,14 @@ type BodyStat struct {
 	Examined         int
 	Correct          int
 	Incorrect        int
-	IncorrectRecords []BodyRecord
+	IncorrectRecords []PBodyRecord
 	TotalRecall      float32
 	TotalPrecision   float32
 	Configuration    Config
+}
+
+func (st BodyStat) GetIncorrectRecords() interface{} {
+	return st.IncorrectRecords
 }
 
 func (st BodyStat) Accuracy() float32 {

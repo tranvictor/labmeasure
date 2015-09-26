@@ -1,15 +1,21 @@
 package labmeasure
 
-type Recorders []Recorder
+type Recorders []PRecorder
 
-type Stater interface{}
+type Stater interface {
+	GetIncorrectRecords() interface{}
+}
 
 type FinalStat struct {
 	recorders map[string]Recorders
 	stats     map[string]Stater
 }
 
-func (st *FinalStat) AddRecordFor(name string, index int, record Recorder) {
+func (st *FinalStat) Stats() map[string]Stater {
+	return st.stats
+}
+
+func (st *FinalStat) AddRecordFor(name string, index int, record PRecorder) {
 	st.recorders[name][index] = record
 }
 

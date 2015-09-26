@@ -24,7 +24,7 @@ func TestMeasure(t *testing.T) {
 			FinalStat{
 				map[string]Recorders{
 					"BodyComparer": Recorders{
-						&BodyRecord{
+						&PBodyRecord{
 							"http://testURL1.com",
 							"this is a test body",
 							"is a test body with additional text",
@@ -40,7 +40,7 @@ func TestMeasure(t *testing.T) {
 				},
 				map[string]Stater{
 					"BodyComparer": BodyStat{
-						1, 1, 0, []BodyRecord{}, 0.8, 4.0 / 7.0,
+						1, 1, 0, []PBodyRecord{}, 0.8, 4.0 / 7.0,
 						createTestConfig(),
 					},
 				},
