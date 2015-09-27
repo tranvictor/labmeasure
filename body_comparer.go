@@ -21,7 +21,7 @@ func (bc BodyComparer) Name() string {
 func (bc BodyComparer) Compare(diffbot, lab Article, config Config) PRecorder {
 	record := PBodyRecord{}
 	if !diffbot.HasBody() || !lab.HasBody() {
-		return &record
+		return nil
 	}
 	normDiffbot := normalize(diffbot.Body)
 	dbwords, dbSize := getMapWordCount(normDiffbot)

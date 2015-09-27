@@ -49,9 +49,11 @@ func analyze(darticles, larticles Articles, conf Config, comparers ...Comparer) 
 				for _, comparer := range comparers {
 					record := comparer.Compare(
 						darticle, larticle, conf)
-					record.SetURL(url)
-					result.AddRecordFor(
-						comparer.Name(), index, record)
+					if record != nil {
+						record.SetURL(url)
+						result.AddRecordFor(
+							comparer.Name(), index, record)
+					}
 				}
 			}
 			sem <- empty{}
