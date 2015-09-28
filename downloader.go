@@ -2,6 +2,7 @@ package labmeasure
 
 import (
 	"crypto/md5"
+	"fmt"
 	"github.com/quirkey/magick"
 	"io"
 	"net/http"
@@ -58,6 +59,7 @@ func httpDownload(url, filePath string) bool {
 	// if the file is not downloaded
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
 		// path/to/whatever does not exist
+		fmt.Printf("%s", url)
 		response, e := http.Get(url)
 		if e != nil {
 			return false
@@ -83,7 +85,7 @@ func download(urls []string) DownloadedImages {
 		h := md5.New()
 		io.WriteString(h, url)
 		hash := h.Sum(nil)
-		filePath := "Users/victor/image_caches/" + string(hash)
+		filePath := "/Users/victor/image_caches/" + string(hash)
 		qualified := httpDownload(url, filePath)
 		if qualified {
 			result.AddDownloadedImage(CacheImage{
