@@ -11,7 +11,7 @@ func TestBuildArticle(t *testing.T) {
 		want Articles
 	}{
 		{
-			`{"http://url.com": {"text": "body text", "title": "title", "images": [{"link": "something"}]}}`,
+			`{"http://url.com": {"text": "body text", "title": "title", "media": [{"link": "something"}]}}`,
 			Articles{
 				"http://url.com": Article{
 					"body text",
@@ -44,7 +44,7 @@ func TestBuildArticle(t *testing.T) {
 		got := BuildArticles(c.in)
 		if !reflect.DeepEqual(got, c.want) {
 			t.Errorf(
-				"BuildArticles(%q) == %q, want %q",
+				"BuildArticles(%q) == \n%q, want \n%q",
 				c.in, got, c.want)
 		}
 	}

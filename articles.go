@@ -11,7 +11,7 @@ type ImageList []struct {
 type Article struct {
 	Body   string    `json:"text,omitempty"`
 	Title  string    `json:"title,omitempty"`
-	Images ImageList `json:"images,omitempty"`
+	Medias ImageList `json:"media,omitempty"`
 }
 
 func (a Article) HasBody() bool {
@@ -20,6 +20,16 @@ func (a Article) HasBody() bool {
 
 func (a Article) HasTitle() bool {
 	return a.Title != ""
+}
+
+func (a Article) Images() []string {
+	result := []string{}
+	for _, image := range a.Medias {
+		if image.Link != "" {
+			result = append(result, image.Link)
+		}
+	}
+	return result
 }
 
 type Articles map[string]Article
