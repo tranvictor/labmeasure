@@ -37,11 +37,22 @@ func TestMeasure(t *testing.T) {
 							true,
 						},
 					},
+					"TitleComparer": Recorders{
+						&PTitleRecord{
+							"http://testURL1.com",
+							"this is the title",
+							"this is the title",
+							true,
+						},
+					},
 				},
 				map[string]Stater{
 					"BodyComparer": BodyStat{
 						1, 1, 0, []PBodyRecord{}, 0.8, 4.0 / 7.0,
 						createTestConfig(),
+					},
+					"TitleComparer": TitleStat{
+						1, 1, 0, []PTitleRecord{}, createTestConfig(),
 					},
 				},
 			},

@@ -80,6 +80,6 @@ func Measure(conf Config) FinalStat {
 	fmt.Printf("%d \n", len(darticles))
 	fmt.Printf("%d \n", len(larticles))
 
-	st := analyze(darticles, larticles, conf, BodyComparer{})
+	st := analyze(darticles, larticles, conf, BodyComparer{}, TitleComparer{})
 	return st
 }

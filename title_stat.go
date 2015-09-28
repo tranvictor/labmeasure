@@ -4,7 +4,10 @@ type TitleStat struct {
 	Examined         int
 	Correct          int
 	Incorrect        int
-	Records          []TitleCompareRecord
-	IncorrectRecords []TitleCompareRecord
+	IncorrectRecords []PTitleRecord
 	Configuration    Config
+}
+
+func (ts TitleStat) GetIncorrectRecords() interface{} {
+	return ts.IncorrectRecords
 }

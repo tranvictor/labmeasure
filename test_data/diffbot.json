@@ -1,6 +1,7 @@
 {
   "http://testURL1.com":
   {
-    "text": "this is a test body"
+    "text": "this is a test body",
+    "title": "this is the title"
   }
 }
