@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"time"
 )
 
 type CacheImage struct {
@@ -66,7 +67,11 @@ func httpDownload(url, filePath string) bool {
 	// if the file is not downloaded
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
 		// path/to/whatever does not exist
-		response, e := http.Get(url)
+		timeout := time.Duration(1 * time.Minute)
+		client := http.Client{
+			Timeout: timeout,
+		}
+		response, e := client.Get(url)
 		if e != nil {
 			return false
 		}
