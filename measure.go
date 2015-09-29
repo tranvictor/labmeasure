@@ -84,7 +84,7 @@ func analyze(darticles, larticles Articles, conf Config, comparers ...Comparer) 
 			sem <- empty{}
 		}(&result, batch, &darticles)
 	}
-	for i := 0; i < concurrency; i++ {
+	for i := 0; i < len(concurrencyBatches); i++ {
 		<-sem
 	}
 	for _, comparer := range comparers {
