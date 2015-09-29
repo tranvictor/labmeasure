@@ -44,10 +44,10 @@ func (o DownloadedImages) Size() int {
 
 func isQualified(filePath string) bool {
 	image, err := magick.NewFromFile(filePath)
-	defer image.Destroy()
 	if err != nil {
 		return false
 	}
+	defer image.Destroy()
 	if image.Type() == "GIF" {
 		return false
 	}
@@ -74,7 +74,6 @@ func httpDownload(url, filePath string) bool {
 		}
 		defer response.Body.Close()
 		file, err := os.Create(filePath)
-		defer file.Close()
 		if err != nil {
 			return false
 		}
@@ -82,7 +81,7 @@ func httpDownload(url, filePath string) bool {
 		if err != nil {
 			return false
 		}
-
+		file.Close()
 	}
 	return isQualified(filePath)
 }
