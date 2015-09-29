@@ -2,7 +2,6 @@ package labmeasure
 
 import (
 	"crypto/md5"
-	"fmt"
 	"github.com/quirkey/magick"
 	"io"
 	"net/http"
@@ -67,7 +66,6 @@ func httpDownload(url, filePath string) bool {
 	// if the file is not downloaded
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
 		// path/to/whatever does not exist
-		fmt.Printf("%s", url)
 		response, e := http.Get(url)
 		if e != nil {
 			return false

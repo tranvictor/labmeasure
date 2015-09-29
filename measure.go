@@ -62,9 +62,9 @@ func analyze(darticles, larticles Articles, conf Config, comparers ...Comparer) 
 	concurrency := 100
 	sem := make(chan empty, concurrency)
 	concurrencyBatches := splitArticles(larticles, concurrency)
-	for _, batch := range concurrencyBatches {
+	for pno, batch := range concurrencyBatches {
 		go func(
-			result *FinalStat,
+			pno int, result *FinalStat,
 			batches map[string]Batch, darticles *Articles) {
 			for url, batch := range batches {
 				larticle := batch.LArticle
@@ -81,8 +81,9 @@ func analyze(darticles, larticles Articles, conf Config, comparers ...Comparer) 
 					}
 				}
 			}
+			fmt.Printf("Done parallelism %d\n", pno)
 			sem <- empty{}
-		}(&result, batch, &darticles)
+		}(pno, &result, batch, &darticles)
 	}
 	for i := 0; i < len(concurrencyBatches); i++ {
 		<-sem
