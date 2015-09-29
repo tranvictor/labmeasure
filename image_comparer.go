@@ -1,5 +1,7 @@
 package labmeasure
 
+import "fmt"
+
 type ImageComparer struct {
 }
 
@@ -15,6 +17,10 @@ func (o ImageComparer) Compare(diffbot, lab Article, config Config) PRecorder {
 	record := PImageRecord{}
 	localDiffbotImages := download(diffbot.Images())
 	localLabImages := download(lab.Images())
+
+	fmt.Printf("localDiffbotImages: %q\n", localDiffbotImages)
+	fmt.Printf("localLabImages: %q\n", localLabImages)
+
 	record.DiffbotImages = localDiffbotImages.URLs()
 	record.LabImages = localLabImages.URLs()
 	record.DiffbotSize = len(record.DiffbotImages)
@@ -28,6 +34,8 @@ func (o ImageComparer) Compare(diffbot, lab Article, config Config) PRecorder {
 		record.Acceptable = true
 	} else {
 		record.LID, record.LNID = compareImageList(localDiffbotImages, localLabImages)
+		fmt.Printf("LID - LNID: %d - %d", record.LID, record.LNID)
+		fmt.Printf("Image Record: %q \n", record)
 		if record.LabSize == 0 {
 			record.Precision = 1.0
 		} else {
@@ -36,7 +44,7 @@ func (o ImageComparer) Compare(diffbot, lab Article, config Config) PRecorder {
 		if record.DiffbotSize == 0 {
 			record.Recall = 1.0
 		} else {
-			record.Recall = float32(record.LNID) / float32(record.DiffbotSize)
+			record.Recall = float32(record.LID) / float32(record.DiffbotSize)
 		}
 		record.Acceptable = isAcceptable(record.Precision, record.Recall, 1, 0)
 	}

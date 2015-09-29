@@ -2,6 +2,11 @@
   "http://testURL1.com":
   {
     "text": "is a test body with additional text",
-    "title": "this is the title"
+    "title": "this is the title",
+    "media": [
+      {
+        "link": "http://www4.pictures.zimbio.com/mp/SPUxm3_wzxNx.jpg"
+      }
+    ]
   }
 }

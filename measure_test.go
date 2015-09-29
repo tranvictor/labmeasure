@@ -45,6 +45,24 @@ func TestMeasure(t *testing.T) {
 							true,
 						},
 					},
+					"ImageComparer": Recorders{
+						&PImageRecord{
+							"http://testURL1.com",
+							[]string{
+								"http://www4.pictures.zimbio.com/mp/SPUxm3_wzxNx.jpg",
+							},
+							[]string{
+								"http://www4.pictures.zimbio.com/mp/SPUxm3_wzxNx.jpg",
+							},
+							1.0,
+							1.0,
+							1,
+							1,
+							1,
+							0,
+							true,
+						},
+					},
 				},
 				map[string]Stater{
 					"BodyComparer": BodyStat{
@@ -53,6 +71,9 @@ func TestMeasure(t *testing.T) {
 					},
 					"TitleComparer": TitleStat{
 						1, 1, 0, []PTitleRecord{}, createTestConfig(),
+					},
+					"ImageComparer": ImageStat{
+						1, 1, 1, 0, []PImageRecord{}, createTestConfig(),
 					},
 				},
 			},

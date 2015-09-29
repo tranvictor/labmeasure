@@ -21,6 +21,14 @@ type DownloadedImages struct {
 func (o DownloadedImages) URLs() []string {
 	result := []string{}
 	for _, cacheImage := range o.cacheImages {
+		result = append(result, cacheImage.url)
+	}
+	return result
+}
+
+func (o DownloadedImages) Hashes() []string {
+	result := []string{}
+	for _, cacheImage := range o.cacheImages {
 		result = append(result, cacheImage.hash)
 	}
 	return result
