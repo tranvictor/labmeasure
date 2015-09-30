@@ -11,6 +11,7 @@ func (o ImageComparer) Name() string {
 }
 
 func phashEqual(labPath, diffbotPath string) bool {
+	fmt.Printf("------------------------------------------\n")
 	labHash, err := phash.ImageHashDCT(labPath)
 	if err != nil {
 		return false
@@ -23,8 +24,9 @@ func phashEqual(labPath, diffbotPath string) bool {
 	if err != nil {
 		return false
 	}
-	fmt.Printf("Distance: %d between (%s, %s)", d, labPath, diffbotPath)
-	return true
+	fmt.Printf("Distance: %d between (%s, %s)\n", d, labPath, diffbotPath)
+	fmt.Printf("#########################################\n")
+	return d < 15
 }
 
 func compareImageList(diffbotImages, labImages DownloadedImages) (int, int) {
