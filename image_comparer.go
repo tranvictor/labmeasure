@@ -23,7 +23,7 @@ func phashEqual(labPath, diffbotPath string) bool {
 	if err != nil {
 		return false
 	}
-	fmt.Println(d)
+	fmt.Printf("Distance: %d between (%s, %s)", d, labPath, diffbotPath)
 	return true
 }
 
