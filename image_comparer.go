@@ -26,7 +26,7 @@ func phashEqual(labPath, diffbotPath string) bool {
 	}
 	fmt.Printf("Distance: %d between (%s, %s)\n", d, labPath, diffbotPath)
 	fmt.Printf("#########################################\n")
-	return d < 15
+	return d <= 22
 }
 
 func compareImageList(diffbotImages, labImages DownloadedImages) (int, int) {
