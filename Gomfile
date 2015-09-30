@@ -1,1 +1,2 @@
 gom "github.com/quirkey/magick"
+gom "github.com/kavu/go-phash"

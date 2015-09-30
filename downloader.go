@@ -12,36 +12,36 @@ import (
 )
 
 type CacheImage struct {
-	url  string
-	hash string
+	URL  string
+	Hash string
 }
 
 type DownloadedImages struct {
-	cacheImages []CacheImage
+	CacheImages []CacheImage
 }
 
 func (o DownloadedImages) URLs() []string {
 	result := []string{}
-	for _, cacheImage := range o.cacheImages {
-		result = append(result, cacheImage.url)
+	for _, cacheImage := range o.CacheImages {
+		result = append(result, cacheImage.URL)
 	}
 	return result
 }
 
 func (o DownloadedImages) Hashes() []string {
 	result := []string{}
-	for _, cacheImage := range o.cacheImages {
-		result = append(result, cacheImage.hash)
+	for _, cacheImage := range o.CacheImages {
+		result = append(result, cacheImage.Hash)
 	}
 	return result
 }
 
 func (o *DownloadedImages) AddDownloadedImage(image CacheImage) {
-	o.cacheImages = append(o.cacheImages, image)
+	o.CacheImages = append(o.CacheImages, image)
 }
 
 func (o DownloadedImages) Size() int {
-	return len(o.cacheImages)
+	return len(o.CacheImages)
 }
 
 func isQualified(filePath string) bool {
@@ -107,7 +107,7 @@ func download(urls []string) DownloadedImages {
 		qualified := httpDownload(url, filePath)
 		if qualified {
 			result.AddDownloadedImage(CacheImage{
-				url, string(hash),
+				url, filePath,
 			})
 		}
 	}

@@ -18,7 +18,7 @@ func TestDownload(t *testing.T) {
 				[]CacheImage{
 					{
 						"http://www4.pictures.zimbio.com/mp/SPUxm3_wzxNx.jpg",
-						"d4f3a97db43566b3f5121bd1c2c871e2",
+						"/Users/victor/image_caches/d4f3a97db43566b3f5121bd1c2c871e2",
 					},
 				},
 			},
@@ -31,7 +31,7 @@ func TestDownload(t *testing.T) {
 				[]CacheImage{
 					{
 						"http://www2.pictures.zimbio.com/mp/oeIE1sD0rLRx.jpg",
-						"b3fd2041f6fc915e8d96f19f482471c5",
+						"/Users/victor/image_caches/b3fd2041f6fc915e8d96f19f482471c5",
 					},
 				},
 			},

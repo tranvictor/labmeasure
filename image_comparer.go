@@ -1,5 +1,8 @@
 package labmeasure
 
+import "github.com/kavu/go-phash"
+import "fmt"
+
 type ImageComparer struct {
 }
 
@@ -7,8 +10,38 @@ func (o ImageComparer) Name() string {
 	return "ImageComparer"
 }
 
+func phashEqual(labPath, diffbotPath string) bool {
+	labHash, err := phash.ImageHashDCT(labPath)
+	if err != nil {
+		return false
+	}
+	diffbotHash, err := phash.ImageHashDCT(diffbotPath)
+	if err != nil {
+		return false
+	}
+	d, err := phash.HammingDistanceForHashes(labHash, diffbotHash)
+	if err != nil {
+		return false
+	}
+	fmt.Println(d)
+	return true
+}
+
 func compareImageList(diffbotImages, labImages DownloadedImages) (int, int) {
-	return diffbotImages.Size(), 0
+	lid := 0
+	for _, labImage := range labImages.CacheImages {
+		for _, diffbotImage := range diffbotImages.CacheImages {
+			if labImage.URL == diffbotImage.URL {
+				lid += 1
+			} else {
+				if phashEqual(labImage.Hash, diffbotImage.Hash) {
+					lid += 1
+				}
+			}
+		}
+	}
+	lnid := len(labImages.CacheImages) - lid
+	return lid, lnid
 }
 
 func (o ImageComparer) Compare(diffbot, lab Article, config Config) PRecorder {
