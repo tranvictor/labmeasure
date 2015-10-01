@@ -93,7 +93,7 @@ func httpDownload(url, filePath string, config Config) bool {
 		if e != nil {
 			return false
 		}
-		defer response.Body.Close()
+		response.Body.Close()
 		file, err := os.Create(filePath)
 		if err != nil {
 			return false
