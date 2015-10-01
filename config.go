@@ -5,4 +5,5 @@ type Config struct {
 	LabDataFile        string
 	PrecisionThreshold float32
 	RecallThreshold    float32
+	ImageCaches        *ImageMetaCaches
 }

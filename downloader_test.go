@@ -38,7 +38,9 @@ func TestDownload(t *testing.T) {
 		},
 	}
 	for _, c := range cases {
-		got := download(c.in)
+		got := download(c.in, Config{
+			ImageCaches: LoadImageMetaCachesPointer(),
+		})
 		if !reflect.DeepEqual(got, c.want) {
 			t.Errorf(
 				"download(%q) ==\n%q, want \n%q",

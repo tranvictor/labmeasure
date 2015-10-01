@@ -11,6 +11,7 @@ func createTestConfig() Config {
 		"test_data/lab.json",
 		0.5,
 		0.5,
+		LoadImageMetaCachesPointer(),
 	}
 }
 

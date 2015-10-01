@@ -108,5 +108,6 @@ func Measure(conf Config) FinalStat {
 	st := analyze(
 		darticles, larticles, conf,
 		BodyComparer{}, TitleComparer{}, ImageComparer{})
+	SaveImageMetaCaches(conf.ImageCaches)
 	return st
 }

@@ -1,7 +1,6 @@
 package labmeasure
 
 import "github.com/kavu/go-phash"
-import "fmt"
 
 type ImageComparer struct {
 }
@@ -10,33 +9,24 @@ func (o ImageComparer) Name() string {
 	return "ImageComparer"
 }
 
-func phashEqual(labPath, diffbotPath string) bool {
-	fmt.Printf("------------------------------------------\n")
-	labHash, err := phash.ImageHashDCT(labPath)
-	if err != nil {
-		return false
-	}
-	diffbotHash, err := phash.ImageHashDCT(diffbotPath)
-	if err != nil {
-		return false
-	}
+func phashEqual(labHash, diffbotHash uint64) bool {
 	d, err := phash.HammingDistanceForHashes(labHash, diffbotHash)
 	if err != nil {
 		return false
 	}
-	fmt.Printf("Distance: %d between \n    open %s %s \n", d, labPath, diffbotPath)
-	fmt.Printf("#########################################\n")
 	return d <= 22
 }
 
-func compareImageList(diffbotImages, labImages DownloadedImages) (int, int) {
+func compareImageList(diffbotImages, labImages DownloadedImages, imageCaches *ImageMetaCaches) (int, int) {
 	lid := 0
 	for _, labImage := range labImages.CacheImages {
 		for _, diffbotImage := range diffbotImages.CacheImages {
 			if labImage.URL == diffbotImage.URL {
 				lid += 1
 			} else {
-				if phashEqual(labImage.Hash, diffbotImage.Hash) {
+				labPhash := (*imageCaches)[labImage.FilePath].Phash
+				diffbotPhash := (*imageCaches)[diffbotImage.FilePath].Phash
+				if phashEqual(labPhash, diffbotPhash) {
 					lid += 1
 				}
 			}
@@ -48,8 +38,8 @@ func compareImageList(diffbotImages, labImages DownloadedImages) (int, int) {
 
 func (o ImageComparer) Compare(diffbot, lab Article, config Config) PRecorder {
 	record := PImageRecord{}
-	localDiffbotImages := download(diffbot.Images())
-	localLabImages := download(lab.Images())
+	localDiffbotImages := download(diffbot.Images(), config)
+	localLabImages := download(lab.Images(), config)
 
 	// fmt.Printf("localDiffbotImages: %q\n", localDiffbotImages)
 	// fmt.Printf("localLabImages: %q\n", localLabImages)
@@ -66,7 +56,8 @@ func (o ImageComparer) Compare(diffbot, lab Article, config Config) PRecorder {
 		record.LNID = 0
 		record.Acceptable = true
 	} else {
-		record.LID, record.LNID = compareImageList(localDiffbotImages, localLabImages)
+		record.LID, record.LNID = compareImageList(
+			localDiffbotImages, localLabImages, config.ImageCaches)
 		// fmt.Printf("LID - LNID: %d - %d", record.LID, record.LNID)
 		// fmt.Printf("Image Record: %q \n", record)
 		if record.LabSize == 0 {
