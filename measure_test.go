@@ -29,6 +29,7 @@ func TestMeasure(t *testing.T) {
 							"http://testURL1.com",
 							"this is a test body",
 							"is a test body with additional text",
+							"Qualified",
 							4.0 / 7.0,
 							0.8,
 							5,
@@ -67,7 +68,7 @@ func TestMeasure(t *testing.T) {
 				},
 				map[string]Stater{
 					"BodyComparer": BodyStat{
-						1, 1, 0, []PBodyRecord{}, 0.8, 4.0 / 7.0,
+						1, 0, 0, 0, 1, 1, 0, []PBodyRecord{}, 0.8, 4.0 / 7.0,
 						createTestConfig(),
 					},
 					"TitleComparer": TitleStat{
