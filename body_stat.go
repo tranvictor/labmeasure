@@ -31,11 +31,11 @@ func (st BodyStat) Accuracy() float32 {
 }
 
 func (st BodyStat) AverageRecall() float32 {
-	return float32(st.TotalRecall) / float32(st.Examined)
+	return float32(st.TotalRecall) / float32(st.Qualified)
 }
 
 func (st BodyStat) AveragePrecision() float32 {
-	return float32(st.TotalPrecision) / float32(st.Examined)
+	return float32(st.TotalPrecision) / float32(st.Qualified)
 }
 
 func (st BodyStat) PrecisionThreshold() float32 {
