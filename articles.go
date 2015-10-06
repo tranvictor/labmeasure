@@ -9,9 +9,10 @@ type ImageList []struct {
 }
 
 type Article struct {
-	Body   string    `json:"text,omitempty"`
-	Title  string    `json:"title,omitempty"`
-	Medias ImageList `json:"media,omitempty"`
+	Body           string    `json:"text,omitempty"`
+	Title          string    `json:"title,omitempty"`
+	Medias         ImageList `json:"media,omitempty"`
+	ExtractionType string    `json:"extraction_type,omitempty"`
 }
 
 func (a Article) HasBody() bool {

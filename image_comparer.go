@@ -36,6 +36,15 @@ func compareImageList(diffbotImages, labImages DownloadedImages, imageCaches *Im
 	return lid, lnid
 }
 
+func compareArticleByOG(diffbot, lab Article) (int, int) {
+	lid := 0
+	lnid := 0
+	if lab.ExtractionType == "OG" {
+		lid = len(lab.Images())
+	}
+	return lid, lnid
+}
+
 func (o ImageComparer) Compare(diffbot, lab Article, config Config) PRecorder {
 	record := PImageRecord{}
 	localDiffbotImages := download(diffbot.Images(), config)
@@ -56,8 +65,12 @@ func (o ImageComparer) Compare(diffbot, lab Article, config Config) PRecorder {
 		record.LNID = 0
 		record.Acceptable = true
 	} else {
-		record.LID, record.LNID = compareImageList(
-			localDiffbotImages, localLabImages, config.ImageCaches)
+		if record.DiffbotSize == 0 {
+			record.LID, record.LNID = compareArticleByOG(diffbot, lab)
+		} else {
+			record.LID, record.LNID = compareImageList(
+				localDiffbotImages, localLabImages, config.ImageCaches)
+		}
 		// fmt.Printf("LID - LNID: %d - %d", record.LID, record.LNID)
 		// fmt.Printf("Image Record: %q \n", record)
 		if record.LabSize == 0 {

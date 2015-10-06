@@ -11,7 +11,7 @@ func TestBuildArticle(t *testing.T) {
 		want Articles
 	}{
 		{
-			`{"http://url.com": {"text": "body text", "title": "title", "media": [{"link": "something"}]}}`,
+			`{"http://url.com": {"text": "body text", "title": "title", "media": [{"link": "something"}], "extraction_type": "OG"}}`,
 			Articles{
 				"http://url.com": Article{
 					"body text",
@@ -19,6 +19,7 @@ func TestBuildArticle(t *testing.T) {
 					ImageList{
 						{"something"},
 					},
+					"OG",
 				},
 			},
 		},
@@ -29,13 +30,14 @@ func TestBuildArticle(t *testing.T) {
 					"",
 					"title",
 					ImageList(nil),
+					"",
 				},
 			},
 		},
 		{
 			"{\"http://url.com\": {}}",
 			Articles{
-				"http://url.com": Article{"", "", ImageList(nil)},
+				"http://url.com": Article{"", "", ImageList(nil), ""},
 			},
 		},
 	}
