@@ -39,7 +39,7 @@ func compareImageList(diffbotImages, labImages DownloadedImages, imageCaches *Im
 func compareArticleByOG(diffbot, lab Article) (int, int) {
 	lid := 0
 	lnid := 0
-	if lab.ExtractionType == "OG" {
+	if lab.ExtractionType == "opengraph" {
 		lid = len(lab.Images())
 	}
 	return lid, lnid
