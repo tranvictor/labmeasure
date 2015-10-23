@@ -29,6 +29,7 @@ func initFinalStat(length int, comparers []Comparer) FinalStat {
 	result := FinalStat{
 		map[string]Recorders{},
 		map[string]Stater{},
+		map[string]AggregateStater{},
 	}
 	for _, comparer := range comparers {
 		result.InitRecorders(comparer.Name(), length)
@@ -57,8 +58,7 @@ func splitArticles(larticles Articles, num int) []map[string]Batch {
 	return result
 }
 
-func analyze(darticles, larticles Articles, conf Config, comparers ...Comparer) FinalStat {
-	result := initFinalStat(len(larticles), comparers)
+func analyze(darticles, larticles Articles, conf Config, result *FinalStat, comparers ...Comparer) {
 	concurrency := 100
 	sem := make(chan empty, concurrency)
 	concurrencyBatches := splitArticles(larticles, concurrency)
@@ -83,7 +83,7 @@ func analyze(darticles, larticles Articles, conf Config, comparers ...Comparer) 
 			}
 			fmt.Printf("Done parallelism %d\n", pno)
 			sem <- empty{}
-		}(pno, &result, batch, &darticles)
+		}(pno, result, batch, &darticles)
 	}
 	for i := 0; i < len(concurrencyBatches); i++ {
 		<-sem
@@ -95,7 +95,13 @@ func analyze(darticles, larticles Articles, conf Config, comparers ...Comparer) 
 			comparer.Calculate(
 				result.GetRecords(comparerName), conf))
 	}
-	return result
+}
+
+func aggregate(larticles Articles, conf Config, st *FinalStat, aggregators ...Aggregator) {
+	for _, aggregator := range aggregators {
+		aggregateStater := aggregator.Calculate(larticles, conf)
+		st.AddAggregateStat(aggregator.Name(), aggregateStater)
+	}
 }
 
 func Measure(conf Config) FinalStat {
@@ -105,9 +111,10 @@ func Measure(conf Config) FinalStat {
 	fmt.Printf("%d \n", len(darticles))
 	fmt.Printf("%d \n", len(larticles))
 
-	st := analyze(
-		darticles, larticles, conf,
+	st := initFinalStat(len(larticles), []Comparer{BodyComparer{}, TitleComparer{}, ImageComparer{}})
+	analyze(darticles, larticles, conf, &st,
 		BodyComparer{}, TitleComparer{}, ImageComparer{})
+	aggregate(larticles, conf, &st, TimeAggregator{})
 	SaveImageMetaCaches(conf.ImageCaches)
 	return st
 }

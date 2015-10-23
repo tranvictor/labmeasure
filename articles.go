@@ -9,10 +9,16 @@ type ImageList []struct {
 }
 
 type Article struct {
-	Body           string    `json:"text,omitempty"`
-	Title          string    `json:"title,omitempty"`
-	Medias         ImageList `json:"media,omitempty"`
-	ExtractionType string    `json:"extraction_type,omitempty"`
+	Body                      string    `json:"text,omitempty"`
+	BodyTotalTime             float32   `json:"body_total_time,omitempty"`
+	Title                     string    `json:"title,omitempty"`
+	TitleTotalTime            float32   `json:"title_total_time,omitempty"`
+	Medias                    ImageList `json:"media,omitempty"`
+	ImageTotalTime            float32   `json:"image_total_time,omitempty"`
+	ImageComputationTime      float32   `json:"image_computation_time,omitempty"`
+	ExtractionType            string    `json:"extraction_type,omitempty"`
+	ExtractionTotalTime       float32   `json:"extraction_total_time,omitempty"`
+	ExtractionComputationTime float32   `json:"extraction_computation_time,omitempty"`
 }
 
 func (a Article) HasBody() bool {

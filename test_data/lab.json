@@ -2,11 +2,17 @@
   "http://testURL1.com":
   {
     "text": "is a test body with additional text",
+    "body_total_time": 100.5,
     "title": "this is the title",
+    "title_total_time": 100.5,
     "media": [
       {
         "link": "http://www4.pictures.zimbio.com/mp/SPUxm3_wzxNx.jpg"
       }
-    ]
+    ],
+    "image_total_time": 120.0,
+    "image_computation_time": 60.0,
+    "extraction_total_time": 321,
+    "extraction_computation_time": 161
   }
 }

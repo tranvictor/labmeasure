@@ -78,6 +78,24 @@ func TestMeasure(t *testing.T) {
 						1, 1, 1, 0, []PImageRecord{}, createTestConfig(),
 					},
 				},
+				map[string]AggregateStater{
+					"TimeAggregator": TimeStat{
+						map[string]ElementStat{
+							"BodyTotalTime": ElementStat{
+								1, 100.5, 100.5, 100.5, "http://testURL1.com", map[string]float32{"http://testURL1.com": 100.5}},
+							"TitleTotalTime": ElementStat{
+								1, 100.5, 100.5, 100.5, "http://testURL1.com", map[string]float32{"http://testURL1.com": 100.5}},
+							"ImageTotalTime": ElementStat{
+								1, 120.0, 120.0, 120.0, "http://testURL1.com", map[string]float32{"http://testURL1.com": 120.0}},
+							"ImageComputationTime": ElementStat{
+								1, 60.0, 60.0, 60.0, "http://testURL1.com", map[string]float32{"http://testURL1.com": 60.0}},
+							"ExtractionTotalTime": ElementStat{
+								1, 321, 321, 321, "http://testURL1.com", map[string]float32{"http://testURL1.com": 321}},
+							"ExtractionComputationTime": ElementStat{
+								1, 161, 161, 161, "http://testURL1.com", map[string]float32{"http://testURL1.com": 161}},
+						},
+					},
+				},
 			},
 		},
 	}
@@ -87,6 +105,8 @@ func TestMeasure(t *testing.T) {
 			t.Errorf(
 				"BuildArticles(%q) == \n%q,\n want \n%q",
 				c.in, got, c.want)
+			// t.Errorf(
+			// 	"%q", got.AggregateStats())
 		}
 	}
 }
