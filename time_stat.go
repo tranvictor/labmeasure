@@ -20,3 +20,7 @@ type TimeStat struct {
 func (ts *TimeStat) Add(name string, es ElementStat) {
 	ts.stat[name] = es
 }
+
+func (ts TimeStat) GetStat(name string) ElementStat {
+	return ts.stat[name]
+}
