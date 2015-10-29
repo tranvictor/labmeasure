@@ -5,6 +5,8 @@
     "body_total_time": 100.5,
     "title": "this is the title",
     "title_total_time": 100.5,
+    "cleaner_total_time": 30.0,
+    "published_date_total_time": 40.0,
     "media": [
       {
         "link": "http://www4.pictures.zimbio.com/mp/SPUxm3_wzxNx.jpg"

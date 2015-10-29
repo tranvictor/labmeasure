@@ -12,6 +12,8 @@ func (ta TimeAggregator) Calculate(articles Articles, config Config) AggregateSt
 	ta.statistic(articles, "ImageComputationTime", &result)
 	ta.statistic(articles, "ExtractionTotalTime", &result)
 	ta.statistic(articles, "ExtractionComputationTime", &result)
+	ta.statistic(articles, "CleanerTotalTime", &result)
+	ta.statistic(articles, "PublishedDateTotalTime", &result)
 	return AggregateStater(result)
 }
 

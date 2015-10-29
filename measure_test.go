@@ -85,6 +85,10 @@ func TestMeasure(t *testing.T) {
 								1, 100.5, 100.5, 100.5, "http://testURL1.com", map[string]float32{"http://testURL1.com": 100.5}},
 							"TitleTotalTime": ElementStat{
 								1, 100.5, 100.5, 100.5, "http://testURL1.com", map[string]float32{"http://testURL1.com": 100.5}},
+							"CleanerTotalTime": ElementStat{
+								1, 30.0, 30.0, 30.0, "http://testURL1.com", map[string]float32{"http://testURL1.com": 30.0}},
+							"PublishedDateTotalTime": ElementStat{
+								1, 40.0, 40.0, 40.0, "http://testURL1.com", map[string]float32{"http://testURL1.com": 40.0}},
 							"ImageTotalTime": ElementStat{
 								1, 120.0, 120.0, 120.0, "http://testURL1.com", map[string]float32{"http://testURL1.com": 120.0}},
 							"ImageComputationTime": ElementStat{
