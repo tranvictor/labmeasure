@@ -15,7 +15,9 @@ func (pc PubdateComparer) Compare(diffbot, lab Article, config Config) PRecorder
 	record.LabPubdateString = lab.PubdateString
 	fmt.Printf("%q", diffbot.Pubdate())
 	fmt.Printf("%q", lab.Pubdate())
-	if diffbot.Pubdate().Equal(lab.Pubdate()) {
+	diffbotPubdateString := diffbot.Pubdate().Format("Jan 2 2006")
+	labPubdateString := lab.Pubdate().Format("Jan 2 2006")
+	if diffbotPubdateString == labPubdateString {
 		record.Acceptable = true
 	} else {
 		record.Acceptable = false
