@@ -111,9 +111,22 @@ func Measure(conf Config) FinalStat {
 	fmt.Printf("%d \n", len(darticles))
 	fmt.Printf("%d \n", len(larticles))
 
-	st := initFinalStat(len(larticles), []Comparer{BodyComparer{}, TitleComparer{}, ImageComparer{}})
-	analyze(darticles, larticles, conf, &st,
-		BodyComparer{}, TitleComparer{}, ImageComparer{})
+	st := initFinalStat(
+		len(larticles),
+		[]Comparer{
+			BodyComparer{},
+			TitleComparer{},
+			ImageComparer{},
+			PubdateComparer{},
+		},
+	)
+	analyze(
+		darticles, larticles, conf, &st,
+		BodyComparer{},
+		TitleComparer{},
+		ImageComparer{},
+		PubdateComparer{},
+	)
 	aggregate(larticles, conf, &st, TimeAggregator{})
 	SaveImageMetaCaches(conf.ImageCaches)
 	return st

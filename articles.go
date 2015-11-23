@@ -2,6 +2,7 @@ package labmeasure
 
 import (
 	"encoding/json"
+	"time"
 )
 
 type ImageList []struct {
@@ -14,6 +15,7 @@ type Article struct {
 	Title                     string    `json:"title,omitempty"`
 	TitleTotalTime            float32   `json:"title_total_time,omitempty"`
 	CleanerTotalTime          float32   `json:"cleaner_total_time,omitempty"`
+	PubdateString             string    `json:"date,omitempty"`
 	PublishedDateTotalTime    float32   `json:"published_date_total_time,omitempty"`
 	Medias                    ImageList `json:"media,omitempty"`
 	ImageTotalTime            float32   `json:"image_total_time,omitempty"`
@@ -39,6 +41,15 @@ func (a Article) Images() []string {
 		}
 	}
 	return result
+}
+
+func (a Article) Pubdate() time.Time {
+	t, err := time.Parse("Mon, 2 Jan 2006 15:04:05 MST", a.PubdateString)
+	if err != nil {
+		return time.Date(1970, 1, 1, 0, 0, 0, 0, time.UTC)
+	} else {
+		return t
+	}
 }
 
 type Articles map[string]Article

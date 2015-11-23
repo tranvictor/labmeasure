@@ -17,6 +17,7 @@ func TestBuildArticle(t *testing.T) {
 			  "title": "title",
 			  "title_total_time": 60.0,
 			  "cleaner_total_time": 40.0,
+			  "date": "Thu, 09 Jul 2015 00:00:00 GMT",
 			  "published_date_total_time": 30.0,
 			  "media": [{"link": "something"}],
 			  "image_total_time": 100.1,
@@ -32,6 +33,7 @@ func TestBuildArticle(t *testing.T) {
 					"title",
 					60.0,
 					40.0,
+					"Thu, 09 Jul 2015 00:00:00 GMT",
 					30.0,
 					ImageList{
 						{"something"},
@@ -50,7 +52,9 @@ func TestBuildArticle(t *testing.T) {
 				"http://url.com": Article{
 					"", 0,
 					"title", 0,
-					0, 0,
+					0,
+					"",
+					0,
 					ImageList(nil), 0, 0,
 					"", 0, 0,
 				},
@@ -62,7 +66,9 @@ func TestBuildArticle(t *testing.T) {
 				"http://url.com": Article{
 					"", 0,
 					"", 0,
-					0, 0,
+					0,
+					"",
+					0,
 					ImageList(nil), 0, 0,
 					"", 0, 0},
 			},
@@ -71,6 +77,7 @@ func TestBuildArticle(t *testing.T) {
 
 	for _, c := range cases {
 		got := BuildArticles(c.in)
+		// time.Date(2015, 7, 9, 0, 0, 0, time.UTC),
 		if !reflect.DeepEqual(got, c.want) {
 			t.Errorf(
 				"BuildArticles(%q) == \n%q, want \n%q",

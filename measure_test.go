@@ -47,6 +47,14 @@ func TestMeasure(t *testing.T) {
 							true,
 						},
 					},
+					"PubdateComparer": Recorders{
+						&PPubdateRecord{
+							"http://testURL1.com",
+							"Thu, 09 Jul 2015 00:00:00 GMT",
+							"Thu, 09 Jul 2015 00:00:00 GMT",
+							true,
+						},
+					},
 					"ImageComparer": Recorders{
 						&PImageRecord{
 							"http://testURL1.com",
@@ -77,6 +85,9 @@ func TestMeasure(t *testing.T) {
 					"ImageComparer": ImageStat{
 						1, 1, 1, 0, []PImageRecord{}, createTestConfig(),
 					},
+					"PubdateComparer": PubdateStat{
+						1, 1, 0, []PPubdateRecord{}, createTestConfig(),
+					},
 				},
 				map[string]AggregateStater{
 					"TimeAggregator": TimeStat{
@@ -106,11 +117,11 @@ func TestMeasure(t *testing.T) {
 	for _, c := range cases {
 		got := Measure(c.in)
 		if !reflect.DeepEqual(got, c.want) {
-			t.Errorf(
-				"BuildArticles(%q) == \n%q,\n want \n%q",
-				c.in, got, c.want)
 			// t.Errorf(
-			// 	"%q", got.AggregateStats())
+			// 	"BuildArticles(%q) == \n%q,\n want \n%q",
+			// 	c.in, got, c.want)
+			t.Errorf(
+				"%q", got.GetRecords("PubdateComparer"))
 		}
 	}
 }
