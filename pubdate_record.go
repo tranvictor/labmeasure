@@ -5,6 +5,7 @@ type PPubdateRecord struct {
 	DiffbotPubdateString string
 	LabPubdateString     string
 	Acceptable           bool
+	Ak                   []int32
 }
 
 func (pr *PPubdateRecord) SetURL(url string) {

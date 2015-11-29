@@ -18,6 +18,7 @@ func TestBuildArticle(t *testing.T) {
 			  "title_total_time": 60.0,
 			  "cleaner_total_time": 40.0,
 			  "date": "Thu, 09 Jul 2015 00:00:00 GMT",
+			  "ak": [1,4],
 			  "published_date_total_time": 30.0,
 			  "media": [{"link": "something"}],
 			  "image_total_time": 100.1,
@@ -34,6 +35,7 @@ func TestBuildArticle(t *testing.T) {
 					60.0,
 					40.0,
 					"Thu, 09 Jul 2015 00:00:00 GMT",
+					[]int32{1, 4},
 					30.0,
 					ImageList{
 						{"something"},
@@ -47,13 +49,14 @@ func TestBuildArticle(t *testing.T) {
 			},
 		},
 		{
-			`{"http://url.com": {"text": "", "title": "title"}}`,
+			`{"http://url.com": {"text": "", "ak": [1, 3], "title": "title"}}`,
 			Articles{
 				"http://url.com": Article{
 					"", 0,
 					"title", 0,
 					0,
 					"",
+					[]int32{1, 3},
 					0,
 					ImageList(nil), 0, 0,
 					"", 0, 0,
@@ -61,13 +64,13 @@ func TestBuildArticle(t *testing.T) {
 			},
 		},
 		{
-			"{\"http://url.com\": {}}",
+			`{"http://url.com": {"ak": [1]}}`,
 			Articles{
 				"http://url.com": Article{
 					"", 0,
 					"", 0,
-					0,
-					"",
+					0, "",
+					[]int32{1},
 					0,
 					ImageList(nil), 0, 0,
 					"", 0, 0},

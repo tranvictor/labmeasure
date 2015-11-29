@@ -13,6 +13,7 @@ func (pc PubdateComparer) Compare(diffbot, lab Article, config Config) PRecorder
 	record := PPubdateRecord{}
 	record.DiffbotPubdateString = diffbot.PubdateString
 	record.LabPubdateString = lab.PubdateString
+	record.Ak = diffbot.PubdateAk
 	fmt.Printf("%q", diffbot.Pubdate())
 	fmt.Printf("%q", lab.Pubdate())
 	diffbotPubdateString := diffbot.Pubdate().Format("Jan 2 2006")

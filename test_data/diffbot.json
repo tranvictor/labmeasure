@@ -4,6 +4,7 @@
     "text": "this is a test body",
     "title": "this is the title",
     "date": "Thu, 09 Jul 2015 00:00:00 GMT",
+    "ak": [1,4],
     "media": [
       {
       "link": "http://www4.pictures.zimbio.com/mp/SPUxm3_wzxNx.jpg"

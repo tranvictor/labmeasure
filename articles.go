@@ -16,6 +16,7 @@ type Article struct {
 	TitleTotalTime            float32   `json:"title_total_time,omitempty"`
 	CleanerTotalTime          float32   `json:"cleaner_total_time,omitempty"`
 	PubdateString             string    `json:"date,omitempty"`
+	PubdateAk                 []int32   `json:"ak,omitempty"`
 	PublishedDateTotalTime    float32   `json:"published_date_total_time,omitempty"`
 	Medias                    ImageList `json:"media,omitempty"`
 	ImageTotalTime            float32   `json:"image_total_time,omitempty"`

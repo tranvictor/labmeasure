@@ -53,6 +53,7 @@ func TestMeasure(t *testing.T) {
 							"Thu, 09 Jul 2015 00:00:00 GMT",
 							"Thu, 09 Jul 2015 00:00:00 GMT",
 							true,
+							[]int32{1, 4},
 						},
 					},
 					"ImageComparer": Recorders{
